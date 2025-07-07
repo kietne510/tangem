@@ -18,14 +18,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const objectsToFall = [];
 const textureLoader = new THREE.TextureLoader();
 const textMessages = [
-    'Anh yêu em', 'I love you', 'Gửi ngàn tim ❤️', 'Mãi yêuuu', 
+    'Anh yêu em', 'I love you', 'Gửi ngàn tim ❤️', 'Mãi yêuuu',
     'U r my sunshine', 'Bé iu của anh'
 ];
 const imagePaths = [
     'images/pic1.jpg',
     'images/pic2.jpg',
     'images/pic3.jpg'
-    
 ];
 
 function createTextObject(text) {
@@ -52,24 +51,28 @@ function createImageObject(imagePath) {
     return mesh;
 }
 
+// Tạo vật thể chữ
 for (let i = 0; i < 20; i++) {
     const randomText = textMessages[Math.floor(Math.random() * textMessages.length)];
     const textObject = createTextObject(randomText);
     objectsToFall.push(textObject);
 }
 
+// Tạo vật thể ảnh
 for (let i = 0; i < 10; i++) {
     const randomImage = imagePaths[Math.floor(Math.random() * imagePaths.length)];
     const imageObject = createImageObject(randomImage);
     objectsToFall.push(imageObject);
 }
 
+// Đặt vị trí ngẫu nhiên cho tất cả vật thể
 objectsToFall.forEach(obj => {
     obj.position.x = (Math.random() - 0.5) * 10;
-    obj.position.y = Math.random() * 10 + 5;
+    // **SỬA LỖI:** Rải các vật thể ra khắp chiều dọc màn hình để tạo hiệu ứng liên tục
+    obj.position.y = (Math.random() * 20) - 10; // Phân bổ ngẫu nhiên từ y = -10 đến y = +10
     obj.position.z = (Math.random() - 0.5) * 5;
 
-    // Chỉ xoay nhẹ ban đầu, không lật ngược
+    // Đặt độ xoay ngẫu nhiên ban đầu
     obj.rotation.x = (Math.random() - 0.5) * 0.4;
     obj.rotation.y = (Math.random() - 0.5) * 0.4;
 
@@ -87,16 +90,13 @@ const tick = () => {
         // Cho vật thể rơi xuống
         obj.position.y -= 0.02;
 
-        // Tạo hiệu ứng lắc lư nhẹ thay vì xoay tròn lộn ngược
-        // Dùng elapsedTime và vị trí của vật thể để tạo ra nhịp điệu riêng
-        obj.rotation.x = Math.sin(elapsedTime + obj.position.y * 0.5) * 0.2; // Lắc lư nhẹ theo trục X
-        obj.rotation.z = Math.sin(elapsedTime + obj.position.x * 0.5) * 0.2; // Lắc lư nhẹ theo trục Z (nghiêng qua lại)
-        
-        // Bạn có thể giữ lại việc xoay chậm quanh trục Y nếu muốn
+        // Tạo hiệu ứng lắc lư nhẹ
+        obj.rotation.x = Math.sin(elapsedTime + obj.position.y * 0.5) * 0.15;
         obj.rotation.y = Math.sin(elapsedTime + obj.position.z * 0.5) * 0.2;
+        obj.rotation.z = Math.sin(elapsedTime + obj.position.x * 0.5) * 0.15;
 
         // Nếu vật thể rơi xuống dưới màn hình, đưa nó lên lại trên cùng
-        if (obj.position.y < -5) {
+        if (obj.position.y < -10) { // Cập nhật giới hạn dưới cho khớp với vị trí ban đầu
             obj.position.y = 10;
             obj.position.x = (Math.random() - 0.5) * 10;
         }
