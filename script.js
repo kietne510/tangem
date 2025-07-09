@@ -18,13 +18,18 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const objectsToFall = [];
 const textureLoader = new THREE.TextureLoader();
 const textMessages = [
-    'Anh yêu em', 'I love you', 'Gửi ngàn tim ❤️', 'Mãi yêuuu',
-    'U r my sunshine', 'Bé iu của anh'
+    // 'Anh yêu em', 'I love you',
+    'Gửi ngàn tim ❤️', 'Mãi yêuuu',
+    'U r my sunshine', 'Bé iu',
+    'Bà Mu votu'
 ];
 const imagePaths = [
-    'images/pic1.jpg',
-    'images/pic2.jpg',
-    'images/pic3.jpg'
+    'images/img1.jpg',
+    'images/img2.jpg',
+    'images/img3.jpg',
+    'images/img4.jpg',
+    'images/img5.jpg',
+    'images/img6.jpg'
 ];
 
 function createTextObject(text) {
