@@ -14,14 +14,25 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+// --- ✨ KHAI BÁO BIẾN ĐỂ TÍNH TOÁN VÙNG HIỂN THỊ ---
+let visibleArea = { width: 0, height: 0 };
+
+function updateVisibleArea() {
+    const fovInRadians = (camera.fov * Math.PI) / 180;
+    // Tính chiều cao có thể thấy ở khoảng cách z=0 từ camera
+    const heightAtZ0 = 2 * Math.tan(fovInRadians / 2) * camera.position.z;
+    visibleArea.height = heightAtZ0;
+    visibleArea.width = visibleArea.height * camera.aspect;
+}
+
+updateVisibleArea(); // Tính toán lần đầu
+
 // --- 2. TẠO CÁC ĐỐI TƯỢNG RƠI ---
 const objectsToFall = [];
 const textureLoader = new THREE.TextureLoader();
 const textMessages = [
-    // 'Anh yêu em', 'I love you',
-    'Gửi ngàn tim ❤️', 'Mãi yêuuu',
-    'U r my sunshine', 'Bé iu',
-    'Bà Mu votu'
+    'Anh yêu em', 'I love you', 'Gửi ngàn tim ❤️', 'Mãi yêuuu',
+    'U r my sunshine', 'Bé iu của anh'
 ];
 const imagePaths = [
     'images/img1.jpg',
@@ -72,9 +83,9 @@ for (let i = 0; i < 10; i++) {
 
 // Đặt vị trí ngẫu nhiên cho tất cả vật thể
 objectsToFall.forEach(obj => {
-    obj.position.x = (Math.random() - 0.5) * 10;
-    // **SỬA LỖI:** Rải các vật thể ra khắp chiều dọc màn hình để tạo hiệu ứng liên tục
-    obj.position.y = (Math.random() * 20) - 10; // Phân bổ ngẫu nhiên từ y = -10 đến y = +10
+    // ✨ SỬA LỖI: Dùng chiều rộng vừa tính được thay vì số cố định
+    obj.position.x = (Math.random() - 0.5) * visibleArea.width; 
+    obj.position.y = (Math.random() * 20) - 10; 
     obj.position.z = (Math.random() - 0.5) * 5;
 
     // Đặt độ xoay ngẫu nhiên ban đầu
@@ -101,9 +112,10 @@ const tick = () => {
         obj.rotation.z = Math.sin(elapsedTime + obj.position.x * 0.5) * 0.15;
 
         // Nếu vật thể rơi xuống dưới màn hình, đưa nó lên lại trên cùng
-        if (obj.position.y < -10) { // Cập nhật giới hạn dưới cho khớp với vị trí ban đầu
+        if (obj.position.y < -10) { 
             obj.position.y = 10;
-            obj.position.x = (Math.random() - 0.5) * 10;
+             // ✨ SỬA LỖI: Dùng chiều rộng vừa tính được khi reset vị trí
+            obj.position.x = (Math.random() - 0.5) * visibleArea.width;
         }
     });
 
@@ -124,4 +136,7 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // ✨ CẬP NHẬT: Tính toán lại vùng hiển thị mỗi khi resize
+    updateVisibleArea();
 });
