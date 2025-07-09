@@ -31,8 +31,10 @@ updateVisibleArea(); // Tính toán lần đầu
 const objectsToFall = [];
 const textureLoader = new THREE.TextureLoader();
 const textMessages = [
-    'Anh yêu em', 'I love you', 'Gửi ngàn tim ❤️', 'Mãi yêuuu',
-    'U r my sunshine', 'Bé iu của anh'
+    // 'Anh yêu em', 'I love you', 
+    'Gửi ngàn tim ❤️', 'Mãi yêuuu',
+    'U r my sunshine', 'Bé iu',
+    'Bà Mu votu'
 ];
 const imagePaths = [
     'images/img1.jpg',
