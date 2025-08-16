@@ -33,16 +33,10 @@ const textureLoader = new THREE.TextureLoader();
 const textMessages = [
     // 'Anh yêu em', 'I love you', 
     'Gửi ngàn tim ❤️', 'Mãi yêuuu',
-    'U r my sunshine', 'Bé iu',
-    'Bà Mu votu'
+    'U r my sunshine', 'Bé iu'
 ];
 const imagePaths = [
-    'images/img1.jpg',
-    'images/img2.jpg',
-    'images/img3.jpg',
-    'images/img4.jpg',
-    'images/img5.jpg',
-    'images/img6.jpg'
+    
 ];
 
 function createTextObject(text) {
@@ -142,3 +136,4 @@ window.addEventListener('resize', () => {
     // ✨ CẬP NHẬT: Tính toán lại vùng hiển thị mỗi khi resize
     updateVisibleArea();
 });
+
